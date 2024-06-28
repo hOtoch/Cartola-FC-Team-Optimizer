@@ -1,0 +1,23 @@
+1 - Entrar no site "https://cartola.globo.com/#!/time"
+
+2 - Procurar e salvar o budget total
+
+3 - Procurar e clicar no botão de filtros
+
+4 - Iterar sobre os filtros de posição
+
+5 - Clicar sobre a checkbox
+
+6 - Clicar em "FILTRAR"
+
+7 - Iterar pela div na lista de jogadores filtrados por posição 
+
+8 - Adicionar na lista de jogadores da posição selecionada um dicionario contendo : Nome,Preço e Média
+
+9 - Clicar novamente em "FILTROS"
+
+10 - Desmarcar a opção selecionada
+
+11 - Marcar a opção da proxima classe da lista de posiçoes
+
+12- Fim do loop
