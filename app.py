@@ -53,9 +53,6 @@ def definir_conteudo(selected_players, selected_players_by_position, budget, cap
     return resposta_email
     
 def enviar_email(resposta_email, num_rodada):
-    if not all([os.environ.get('EMAIL_FROM'), os.environ.get('EMAIL_PASSWORD'), os.environ.get('EMAIL_TO')]):
-        print("Variáveis de ambiente necessárias não estão definidas.")
-        exit()
         
     # Enviar email com os jogadores selecionados
     email_sender = Emailer(os.environ.get('EMAIL_FROM'), os.environ.get('EMAIL_KEY'))
