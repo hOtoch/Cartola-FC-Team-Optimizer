@@ -33,13 +33,16 @@ def otimizadorLPI(atletas_filter, budget, posicoes):
         
     return selected_players_by_position, selected_players
 
-def definir_conteudo(selected_players, selected_players_by_position, budget):
+def definir_conteudo(selected_players, selected_players_by_position, budget, capitao):
     resposta_email = f"<h2>Jogadores selecionados com o orçamento de {budget}:</h2><br>"
 
     for posicao, players in selected_players_by_position.items():
         resposta_email += f"<h3>{posicao}:</h3><ul>"
         for player in players:
-            resposta_email += f"<li>{player['apelido']} - Preço: {player['preco']} - Média: {player['media']}</li>"
+            if player['id'] == capitao['atleta_id']:
+                resposta_email += f"<li><strong>{player['apelido']} - Preço: {player['preco']} - Média: {player['media']} (CAPITÃO)</strong></li>"
+            else:     
+                resposta_email += f"<li>{player['apelido']} - Preço: {player['preco']} - Média: {player['media']}</li>"
         resposta_email += "</ul>"
 
     total_cost = sum(player['preco'] for player in selected_players)
@@ -67,7 +70,11 @@ if __name__ == "__main__":
     url_status = "https://api.cartolafc.globo.com/mercado/status"
     resposta_status = requests.request("GET", url_status)
     status = json.loads(resposta_status.content)
-    num_rodada = status['rodada_atual']
+    
+    if status['status_mercado'] == 2:
+        print("O mercado do Cartola FC está fechado")
+        exit()
+   
     
     url_atletas = "https://api.cartolafc.globo.com/atletas/mercado"
     resposta_atletas = requests.request("GET", url_atletas)
@@ -81,13 +88,20 @@ if __name__ == "__main__":
                 "6" : {"id": 6, "nome": "Técnico","qtd" : 1}}
 
     budget = 110.0
-
+    num_rodada = status['rodada_atual']
     atletas_filter = []
     
     load_dotenv()
+    
+    capitao = None
+    mediaCapitao = 0
 
     for atleta in objetos['atletas']:
         if atleta['status_id'] == 7: # Se o jogador estiver disponível
+            if atleta['media_num'] > mediaCapitao:
+                capitao = atleta
+                mediaCapitao = atleta['media_num']
+            
             atletas_filter.append({
                 'id' : atleta['atleta_id'],
                 'apelido': atleta['apelido'],
@@ -103,7 +117,7 @@ if __name__ == "__main__":
         print("Otimizando time...")
         selected_players_by_position, selected_players = otimizadorLPI(atletas_filter, budget, posicoes)
         print("Time otimizado!\n\n")
-        resposta = definir_conteudo(selected_players, selected_players_by_position, budget)
+        resposta = definir_conteudo(selected_players, selected_players_by_position, budget,capitao)
         
         try:
             enviar_email(resposta, num_rodada)
