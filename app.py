@@ -4,6 +4,8 @@ import pulp
 import os
 from dotenv import load_dotenv
 from email_sender import Emailer
+import schedule
+from time import sleep
 
 def otimizadorLPI(atletas_filter, budget, posicoes):
 
@@ -61,8 +63,8 @@ def enviar_email(resposta_email, num_rodada):
     
     email_sender.enviar_email(60)
     
-if __name__ == "__main__":
-    # Atletas disponíveis no mercado do cartola
+def job():
+     # Atletas disponíveis no mercado do cartola
     url_status = "https://api.cartolafc.globo.com/mercado/status"
     resposta_status = requests.request("GET", url_status)
     status = json.loads(resposta_status.content)
@@ -122,3 +124,14 @@ if __name__ == "__main__":
         except Exception as e:
             print(f"Erro ao enviar email: {e}")
             exit()
+    
+if __name__ == "__main__":
+    
+    schedule.every(1).day.at("12:00").do(job)
+    
+    while True:
+        schedule.run_pending()
+        sleep(1)
+    
+    
+   
