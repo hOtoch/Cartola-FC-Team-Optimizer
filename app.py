@@ -126,7 +126,7 @@ def job():
             exit()
     
 if __name__ == "__main__":
-    
+    print('Iniciando o script...')
     schedule.every(1).day.at("12:00").do(job)
     
     while True:
