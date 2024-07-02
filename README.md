@@ -11,7 +11,6 @@ Este projeto visa otimizar a seleção de um time no Cartola FC com base no orç
 ## Dependências
 
 - `requests`
-- `pandas`
 - `json`
 - `pulp`
 - `python-dotenv`
