@@ -127,7 +127,7 @@ def job():
     
 if __name__ == "__main__":
     print('Iniciando o script...')
-    schedule.every(1).minutes.do(job)
+    schedule.every(1).days.at("11:00").do(job)
     
     while True:
         schedule.run_pending()
