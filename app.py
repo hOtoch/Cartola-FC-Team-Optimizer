@@ -127,7 +127,7 @@ def job():
     
 if __name__ == "__main__":
     print('Iniciando o script...')
-    schedule.every(30).seconds.do(job)
+    schedule.every(1).day.do(job)
 
     
     while True:
