@@ -85,7 +85,7 @@ def job():
                 "5" : {"id": 5, "nome": "Atacante","qtd" : 3},
                 "6" : {"id": 6, "nome": "Técnico","qtd" : 1}}
 
-    budget = 110.0
+    budget = 104.85
     num_rodada = status['rodada_atual']
     atletas_filter = []
     
@@ -127,7 +127,8 @@ def job():
     
 if __name__ == "__main__":
     print('Iniciando o script...')
-    schedule.every(1).days.at("11:00").do(job)
+    schedule.every(30).seconds.do(job)
+
     
     while True:
         schedule.run_pending()
